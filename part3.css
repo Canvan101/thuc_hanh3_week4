@@ -1,0 +1,138 @@
+/* ==========================================================================
+   1. CHẾ ĐỘ XEM DI ĐỘNG (Mặc định - Mobile First)
+   Sử dụng lưới 1 cột, khoảng cách 10px giữa hàng/cột. Không dùng media query.
+   ========================================================================== */
+html {
+    scroll-behavior: smooth; /* Mặc định cuộn mượt mà */
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f8f9fa; /* Bảng màu sáng mặc định */
+    color: #212529;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Cấu hình lưới 1 cột cho di động */
+.gallery-container {
+    display: grid;
+    grid-template-columns: 1fr; 
+    gap: 10px; /* Khoảng cách 10px giữa các hàng và cột */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+figure {
+    margin: 0;
+    background-color: #ffffff;
+    border: 2px solid #dee2e6;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+figure img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+}
+
+figcaption {
+    margin-top: 15px;
+}
+
+
+/* ==========================================================================
+   2. TRUY VẤN MÁY TÍNH BẢNG (Kích hoạt từ 772px trở lên)
+   ========================================================================== */
+@media all and (min-width: 772px) {
+    .gallery-container {
+        grid-template-columns: repeat(2, 1fr); /* Lưới hai cột */
+    }
+
+    figure {
+        border-radius: 15px; /* Đặt bán kính đường viền để tạo hình bo tròn */
+    }
+
+    /* Đặt con số (khối figure) cuối cùng chiếm cả hai cột */
+    figure:last-child {
+        grid-column: span 2;
+    }
+}
+
+
+/* ==========================================================================
+   3. TRUY VẤN MÀN HÌNH LỚN (Kích hoạt từ 992px trở lên)
+   Chú ý: Không dùng max-width, không lặp lại các quy tắc thừa.
+   ========================================================================== */
+@media all and (min-width: 992px) {
+    .gallery-container {
+        grid-template-columns: repeat(3, 1fr); /* Chuyển thành lưới 3 cột */
+    }
+
+    figure {
+        border-radius: 0; /* Xóa bán kính đường viền khỏi tất cả các hình */
+    }
+
+    /* Trả khối cuối cùng về bình thường (không chiếm 2 cột như ở tablet nữa) */
+    figure:last-child {
+        grid-column: auto;
+    }
+
+    /* Đặt mỗi con số (khối figure) thứ ba chiếm cả hai cột */
+    figure:nth-child(3n) {
+        grid-column: span 2;
+    }
+}
+
+
+/* ==========================================================================
+   4. TRUY VẤN GIẢM CHUYỂN ĐỘNG (prefers-reduced-motion)
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto !important; /* Xóa hành vi cuộn mượt mà */
+    }
+    
+    *, ::before, ::after {
+        animation-delay: -1ms !important;
+        animation-duration: -1ms !important;
+        animation-iteration-count: 1 !important;
+        background-attachment: scroll !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0s !important;
+        transition-delay: 0s !important;
+    }
+}
+
+
+/* ==========================================================================
+   5. TRUY VẤN BẢNG MÀU TỐI (prefers-color-scheme: dark)
+   Đã tối ưu tương phản màu sắc đạt chuẩn WAVE (Chữ vàng trên nền tối).
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+
+    figure {
+        background-color: #1e1e1e; /* Thay đổi màu nền của các hình thành màu tối */
+        border-color: #000000; /* Thay đổi màu viền của các hình thành màu đen */
+    }
+
+    /* Thay đổi màu phông chữ của các hình (tiêu đề và đoạn văn) thành màu vàng nhạt */
+    figure h3, figure p {
+        color: #ffeb3b; /* Màu vàng sáng, độ tương phản cực tốt trên nền #1e1e1e đạt chuẩn WAVE */
+    }
+}
